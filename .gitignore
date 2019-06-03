@@ -89,6 +89,9 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+uwgs.json
+cli.py
+.DS_Store
 
 # Spyder project settings
 .spyderproject
