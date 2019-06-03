@@ -20,7 +20,7 @@ class Membership:
         self._url += '/group/{}/member/{}'.format(group_id, member_id)
         return Payload(self._session.get(self._url, params=query, headers=header))
 
-    def effective_members(self, group_id: str, header: dict = get_headers()) -> object:
+    def effective_members(self, group_id: str, header: dict) -> object:
         self._url += '/group/{}/effective_member'.format(group_id)
         return Payload(self._session.get(self._url, headers=header))
 

@@ -74,7 +74,6 @@ class Client:
             owner: str = None,
             affiliate: str = None,
             instructor: str = None):
-        header = get_headers()
         query = {
             "name": name,
             "stem": stem,
@@ -86,5 +85,6 @@ class Client:
             "instructor": instructor,
             "source=registry": 'registry'
         }
+        header = get_headers()
         search = Search(self._session, self._url)
         return search.get(query, header)

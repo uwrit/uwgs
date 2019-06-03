@@ -7,6 +7,6 @@ class Search:
         self._session = session
         self._url = url
 
-    def get(self, query: dict, header: dict = get_headers()) -> object:
+    def get(self, query: dict, header: dict) -> object:
         self._url += '/search'
         return Payload(self._session.get(self._url, params=query, headers=header))
