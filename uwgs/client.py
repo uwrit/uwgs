@@ -3,7 +3,7 @@ from .membership import Membership
 from .search import Search
 import requests
 from typing import List
-from .types import get_headers
+from .types import get_headers, Payload
 
 
 class Client:
@@ -15,18 +15,18 @@ class Client:
         self._session = session
         self._url = url
 
-    def get_group(self, group_id: str, if_none_match: str = None):
+    def get_group(self, group_id: str, if_none_match: str = None) -> Payload:
         header = get_headers(**{'If-None-Match': if_none_match})
         group = Group(self._session, self._url)
         return group.get(group_id, header)
 
-    def get_members(self, group_id: str):
+    def get_members(self, group_id: str) -> Payload:
         query = {'source=registry': 'registry'}
         header = get_headers()
         membership = Membership(self._session, self._url)
         return membership.members(group_id, query, header)
 
-    def get_membership_count(self, group_id: str):
+    def get_membership_count(self, group_id: str) -> Payload:
         query = {
             'view': 'count',
             'source=registry': 'registry'
@@ -35,7 +35,7 @@ class Client:
         membership = Membership(self._session, self._url)
         return membership.count(group_id, query, header)
 
-    def find_member(self, group_id: str, member_id: str):
+    def find_member(self, group_id: str, member_id: str) -> Payload:
         query = {
             'source=registry': 'registry'
         }
@@ -43,7 +43,7 @@ class Client:
         membership = Membership(self._session, self._url)
         return membership.find_member(group_id, member_id, query, header)
 
-    def get_effective_members(self, group_id: str):
+    def get_effective_members(self, group_id: str) -> Payload:
         header = get_headers()
         membership = Membership(self._session, self._url)
         return membership.effective_members(group_id, header)
@@ -57,7 +57,7 @@ class Client:
         membership = Membership(self._session, self._url)
         return membership.effective_count(group_id, query, header)
 
-    def find_effective_member(self, group_id: str, member_id: str):
+    def find_effective_member(self, group_id: str, member_id: str) -> Payload:
         query = {
             'source=registry': 'registry'
         }
@@ -73,7 +73,7 @@ class Client:
             ty: str = None,
             owner: str = None,
             affiliate: str = None,
-            instructor: str = None):
+            instructor: str = None) -> Payload:
         query = {
             "name": name,
             "stem": stem,
