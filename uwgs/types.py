@@ -25,13 +25,13 @@ class Payload:
             'ok': self.ok,
             'data': self.data})
 
-def all_other_get_headers() -> dict:
+def default_get_headers() -> dict:
     return {
         "accept": "application/json"
     }
 
 def get_headers(**kwargs: dict) -> dict:
-    h = all_other_get_headers()
+    h = default_get_headers()
     for k, v in kwargs.items():
         if v:
             h[k] = v
