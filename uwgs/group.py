@@ -1,6 +1,7 @@
-import requests
 from .types import Payload, get_headers
-import attr
+from datetime import datetime
+from typing import List, Iterable
+import concurrent.futures as cf
 
 
 class Group:
@@ -8,21 +9,14 @@ class Group:
         self._session = session
         self._url = url
 
-    def get(self, group_id: str, header: dict) -> Payload:
-        self._url += '/group/{}'.format(group_id)
-        return Payload(self._session.get(self._url, headers=header))
+    def get_url(self, group_id: str) -> str:
+        return self._url + '/group/{}'.format(group_id)
 
-@attr.s
-class GroupResponseMeta:
-    resource_type: str = attr.ib(default='group')
-    version: str = attr.ib(default='')
-    reg_id: str = attr.ib(default='')
-    id: str = attr.ib(default='')
-    self_ref = attr.ib(default='')
-    member_ref: str = attr.ib(default='')
-    timestamp: int = attr.ib(default=0)
-
-@attr.s
-class Group:
-    reg_id: str = attr.ib(default='')
+    def get_one(self, group_id: str, header: dict) -> Payload:
+        url = self.get_url(group_id)
+        return Payload(self._session.get(url, headers=header).result())
     
+    def get_many(self, group_ids: Iterable[str], header: dict) -> List[Payload]:
+        urls = map(self.get_url, group_ids)
+        fs = [self._session.get(u, headers=header) for u in urls]
+        return [Payload(r.result()) for r in cf.as_completed(fs)]

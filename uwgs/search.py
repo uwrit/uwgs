@@ -1,5 +1,4 @@
 from .types import Payload, get_headers
-import requests
 
 
 class Search:
@@ -8,5 +7,5 @@ class Search:
         self._url = url
 
     def get(self, query: dict, header: dict) -> Payload:
-        self._url += '/search'
-        return Payload(self._session.get(self._url, params=query, headers=header))
+        url = self._url+'/search'
+        return Payload(self._session.get(url, params=query, headers=header).result())
