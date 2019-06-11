@@ -15,18 +15,19 @@ class Membership:
         return self._url+'/group/{}/effective_member'.format(group_id)
 
 
-    def members_one(self, group_id: str, header: dict) -> Payload:
+    def membership(self, group_id: str, header: dict) -> Payload:
         url = self.get_url(group_id)
         query = {'source=registry': 'registry'}
         return Payload(self._session.get(url, params=query, headers=header).result())
 
-    def members_many(self, group_ids: Iterable[str], header: dict) -> List[Payload]:
+    def memberships(self, group_ids: Iterable[str], header: dict) -> List[Payload]:
         urls = map(self.get_url, group_ids)
         fs = [self._session.get(u, headers=header) for u in urls]
         return [Payload(r.result()) for r in cf.as_completed(fs)]
 
 
-    def count_one(self, group_id: str, header: dict) -> Payload:
+
+    def count(self, group_id: str, header: dict) -> Payload:
         url = self.get_url(group_id)
         query = {
             'view': 'count',
@@ -34,7 +35,7 @@ class Membership:
         }
         return Payload(self._session.get(url, params=query, headers=header).result())
     
-    def count_many(self, group_ids: Iterable[str], header: dict) -> List[Payload]:
+    def counts(self, group_ids: Iterable[str], header: dict) -> List[Payload]:
         urls = map(self.get_url, group_ids)
         query = {
             'view': 'count',
@@ -44,26 +45,29 @@ class Membership:
         return [Payload(r.result()) for r in cf.as_completed(fs)]
 
 
-    def find_member_one(self, lookup: MemberLookup, header: dict) -> Payload:
+
+    def find_member(self, lookup: MemberLookup, header: dict) -> Payload:
         url = self._url+'/group/{}/member/{}'.format(lookup.group_id, lookup.member_id)
         query = {'source=registry': 'registry'}
         return Payload(self._session.get(url, params=query, headers=header).result())
     
-    def find_member_many(self, lookups: Iterable[MemberLookup], header: dict) -> Payload:
+    def find_members(self, lookups: Iterable[MemberLookup], header: dict) -> List[Payload]:
         urls = [self._url+'/group/{}/member/{}'.format(l.group_id, l.member_id) for l in lookups]
         query = {'source=registry': 'registry'}
         fs = [self._session.get(u, params=query, headers=header) for u in urls]
         return [Payload(r.result()) for r in cf.as_completed(fs)]
 
 
-    def effective_membership_one(self, group_id: str, header: dict) -> Payload:
+
+    def effective_membership(self, group_id: str, header: dict) -> Payload:
         url = self.get_effective_url(group_id)
         return Payload(self._session.get(url, headers=header).result())
     
-    def effective_membership_many(self, group_ids: Iterable[str], header: dict) -> Payload:
+    def effective_memberships(self, group_ids: Iterable[str], header: dict) -> List[Payload]:
         urls = map(self.get_effective_url, group_ids)
         fs = [self._session.get(u, headers=header) for u in urls]
         return [Payload(r.result()) for r in cf.as_completed(fs)]
+
 
 
     def effective_count(self, group_id: str, header: dict) -> Payload:
@@ -74,9 +78,26 @@ class Membership:
         }
         return Payload(self._session.get(url, params=query, headers=header).result())
 
+    def effective_counts(self, group_ids: Iterable[str], header: dict) -> List[Payload]:
+        urls = map(self.get_effective_url, group_ids)
+        query = {
+            'view': 'count',
+            'source=registry': 'registry'
+        }
+        fs = [self._session.get(u, params=query, headers=header) for u in urls]
+        return [Payload(r.result()) for r in cf.as_completed(fs)]
 
-    def find_effective_member(self, group_id: str, member_id: str, header: dict) -> Payload:
+
+
+    def find_effective_member(self, lookup: MemberLookup, header: dict) -> Payload:
         url = self._url+'/group/{}/effective_member/{}'.format(
-            group_id, member_id)
+            lookup.group_id, lookup.member_id)
         query = {'source=registry': 'registry'}
         return Payload(self._session.get(url, params=query, headers=header).result())
+    
+    def find_effective_members(self, lookups: Iterable[MemberLookup], header: dict) -> List[Payload]:
+        urls = [self._url+'/group/{}/effective_member/{}'.format(
+            lookup.group_id, lookup.member_id) for lookup in lookups]
+        query = {'source=registry': 'registry'}
+        fs = [self._session.get(u, params=query, headers=header) for u in urls]
+        return [Payload(r.result()) for r in cf.as_completed(fs)]

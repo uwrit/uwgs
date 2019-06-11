@@ -17,6 +17,7 @@ class Client:
         self._url = url
 
 
+
     def get_group(self, group_id: str, if_none_match: str = None) -> Payload:
         header = get_headers(**{'If-None-Match': if_none_match})
         group = Group(self._session, self._url)
@@ -28,60 +29,76 @@ class Client:
         return group.get_many(group_ids, header)
 
 
+
     def get_membership(self, group_id: str) -> Payload:
         header = get_headers()
         membership = Membership(self._session, self._url)
-        return membership.members_one(group_id, header)
+        return membership.membership(group_id, header)
     
     def get_memberships(self, group_ids: Iterable[str]) -> Payload:
         header = get_headers()
         membership = Membership(self._session, self._url)
-        return membership.members_many(group_ids, header)
+        return membership.memberships(group_ids, header)
+
 
 
     def get_membership_count(self, group_id: str) -> Payload:
         header = get_headers()
         membership = Membership(self._session, self._url)
-        return membership.count_one(group_id, header)
+        return membership.count(group_id, header)
     
     def get_membership_counts(self, group_ids: Iterable[str]) -> List[Payload]:
         header = get_headers()
         membership = Membership(self._session, self._url)
-        return membership.count_many(group_ids, header)
+        return membership.counts(group_ids, header)
+
 
 
     def find_member(self, lookup: MemberLookup) -> Payload:
         header = get_headers()
         membership = Membership(self._session, self._url)
-        return membership.find_member_one(lookup, header)
+        return membership.find_member(lookup, header)
     
     def find_members(self, lookups: Iterable[MemberLookup]) -> List[Payload]:
         header = get_headers()
         membership = Membership(self._session, self._url)
-        return membership.find_member_many(lookups, header)
+        return membership.find_members(lookups, header)
+
 
 
     def get_effective_membership(self, group_id: str) -> Payload:
         header = get_headers()
         membership = Membership(self._session, self._url)
-        return membership.effective_membership_one(group_id, header)
+        return membership.effective_membership(group_id, header)
     
     def get_effective_memberships(self, group_ids: Iterable[str]) -> List[Payload]:
         header = get_headers()
         membership = Membership(self._session, self._url)
-        return membership.effective_membership_many(group_ids, header)
+        return membership.effective_memberships(group_ids, header)
 
 
-    def get_effective_membership_count(self, group_id: str):
+
+    def get_effective_membership_count(self, group_id: str) -> Payload:
         header = get_headers()
         membership = Membership(self._session, self._url)
         return membership.effective_count(group_id, header)
 
-
-    def find_effective_member(self, group_id: str, member_id: str) -> Payload:
+    def get_effective_membership_counts(self, group_ids: Iterable[str]) -> List[Payload]:
         header = get_headers()
         membership = Membership(self._session, self._url)
-        return membership.find_effective_member(group_id, member_id, header)
+        return membership.effective_counts(group_ids, header)
+
+
+
+    def find_effective_member(self, lookup: MemberLookup) -> Payload:
+        header = get_headers()
+        membership = Membership(self._session, self._url)
+        return membership.find_effective_member(lookup, header)
+    
+    def find_effective_members(self, lookups: Iterable[MemberLookup]) -> List[Payload]:
+        header = get_headers()
+        membership = Membership(self._session, self._url)
+        return membership.find_effective_members(lookups, header)
 
 
     def search(self,

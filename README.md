@@ -30,10 +30,9 @@ def cli():
     
     payload = client.search(name='<group_prefix>*')
     if payload.ok:
-        for group in payload.data['data']:
-            first = client.get_members(group['id'])
-            print(first)
-            break
+        groups = [group['id'] for group in payload.data['data']]
+        rosters = client.get_memberships(groups)
+        print(rosters)
 
 if __name__ == "__main__":
     cli()
