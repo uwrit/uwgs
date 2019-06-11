@@ -1,5 +1,6 @@
 import requests
 import json
+from collections import namedtuple
 
 
 class Payload:
@@ -36,3 +37,5 @@ def get_headers(**kwargs: dict) -> dict:
         if v:
             h[k] = v
     return h
+
+MemberLookup = namedtuple('MemberLookup', ['group_id', 'member_id'])

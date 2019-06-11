@@ -1,69 +1,88 @@
 from .group import Group
 from .membership import Membership
 from .search import Search
-import requests
-from typing import List
-from .types import get_headers, Payload
+from typing import List, Iterable
+from .types import get_headers, Payload, MemberLookup
+import concurrent.futures as cf
+from requests_futures.sessions import FuturesSession
 
 
 class Client:
     def __init__(self, client_cert: str, client_key: str, url: str):
-        session = requests.Session()
+        session = FuturesSession()
         session.cert = (client_cert, client_key)
         session.verify = True
 
         self._session = session
         self._url = url
 
+
     def get_group(self, group_id: str, if_none_match: str = None) -> Payload:
         header = get_headers(**{'If-None-Match': if_none_match})
         group = Group(self._session, self._url)
-        return group.get(group_id, header)
+        return group.get_one(group_id, header)
 
-    def get_members(self, group_id: str) -> Payload:
-        query = {'source=registry': 'registry'}
+    def get_groups(self, group_ids: Iterable[str], if_none_match: str = None) -> List[Payload]:
+        header = get_headers(**{'If-None-Match': if_none_match})
+        group = Group(self._session, self._url)
+        return group.get_many(group_ids, header)
+
+
+    def get_membership(self, group_id: str) -> Payload:
         header = get_headers()
         membership = Membership(self._session, self._url)
-        return membership.members(group_id, query, header)
+        return membership.members_one(group_id, header)
+    
+    def get_memberships(self, group_ids: Iterable[str]) -> Payload:
+        header = get_headers()
+        membership = Membership(self._session, self._url)
+        return membership.members_many(group_ids, header)
+
 
     def get_membership_count(self, group_id: str) -> Payload:
-        query = {
-            'view': 'count',
-            'source=registry': 'registry'
-        }
         header = get_headers()
         membership = Membership(self._session, self._url)
-        return membership.count(group_id, query, header)
+        return membership.count_one(group_id, header)
+    
+    def get_membership_counts(self, group_ids: Iterable[str]) -> List[Payload]:
+        header = get_headers()
+        membership = Membership(self._session, self._url)
+        return membership.count_many(group_ids, header)
 
-    def find_member(self, group_id: str, member_id: str) -> Payload:
-        query = {
-            'source=registry': 'registry'
-        }
-        header = get_headers()
-        membership = Membership(self._session, self._url)
-        return membership.find_member(group_id, member_id, query, header)
 
-    def get_effective_members(self, group_id: str) -> Payload:
+    def find_member(self, lookup: MemberLookup) -> Payload:
         header = get_headers()
         membership = Membership(self._session, self._url)
-        return membership.effective_members(group_id, header)
+        return membership.find_member_one(lookup, header)
+    
+    def find_members(self, lookups: Iterable[MemberLookup]) -> List[Payload]:
+        header = get_headers()
+        membership = Membership(self._session, self._url)
+        return membership.find_member_many(lookups, header)
+
+
+    def get_effective_membership(self, group_id: str) -> Payload:
+        header = get_headers()
+        membership = Membership(self._session, self._url)
+        return membership.effective_membership_one(group_id, header)
+    
+    def get_effective_memberships(self, group_ids: Iterable[str]) -> List[Payload]:
+        header = get_headers()
+        membership = Membership(self._session, self._url)
+        return membership.effective_membership_many(group_ids, header)
+
 
     def get_effective_membership_count(self, group_id: str):
-        query = {
-            'view': 'count',
-            'source=registry': 'registry'
-        }
         header = get_headers()
         membership = Membership(self._session, self._url)
-        return membership.effective_count(group_id, query, header)
+        return membership.effective_count(group_id, header)
+
 
     def find_effective_member(self, group_id: str, member_id: str) -> Payload:
-        query = {
-            'source=registry': 'registry'
-        }
         header = get_headers()
         membership = Membership(self._session, self._url)
-        return membership.find_effective_member(group_id, member_id, query, header)
+        return membership.find_effective_member(group_id, member_id, header)
+
 
     def search(self,
             name: str = None,
