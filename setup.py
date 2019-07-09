@@ -5,7 +5,7 @@ with open('README.md') as f:
 
 setup(
     name='uwgs',
-    version='0.1.0',
+    version='0.2.0',
     description='Flexible http client for reading UW Groups API v3.',
     long_description=readme,
     author='UW Medicine Research IT',
