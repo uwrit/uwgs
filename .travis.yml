@@ -1,0 +1,15 @@
+language: python
+dist: xenial
+python:
+  - "3.6"
+  - "3.7"
+install:
+  - pip install pipenv
+  - pipenv install --dev
+deploy:
+  provider: pypi
+  user: uwrit
+  password:
+    secure: MVG/TUUGK9+wwUFDnAeenx+WdwfAo3PSE6uEjuU+40rcMsevfwnBduvf+zHdCzSZ6dXzPuAeFZUpnrueNVLeeT2zP5mya4fDSEUq6ZyTN3gKdGPYCOnBy8MAbiGaV9aFIAexwwtLTvVae9K8O8aWyooucvA2TVBMv/W/9u5Z7rZDZ6MoihXfax9zTngZ66OBcRt7Ux/FK5Szveksy+1dZ5JorGBNLQ57elZpjmyxtaMx6KEy0+gn2BfLIoBZHSPU3+7EtqjlWPsgZS4mQLQVHPNwokvrx0nh4yAO2vnW3f+lwfNBS8HQAgJP0Gw+fobwn5JMSAJoAlUKp4eZnEgjzyNVe4gKC6HlVUj7uMnYSqi8VJkN30F2cg7JHLiTd71nKRaMLgIvB+WU2bXgc3slMBB3Ce9bbIdyZHQdwJ1PI0OHN0CxrFTE+KZiXHd2WyiqFyai29WYI72k9wHBAHrYI6xl48uDuTqEmLVSmbuEFOmXtgK4gEFM8S8hBIN31sZvl72w/JFGqxoyhI03y00kmL536wI9nTwcb7BH659SlCTzUFrs3evvFSXUK3SWSIvHWEURRs0HRdwNg7ly+mszmk0SeqvDkGFegi7hl2iTwX3hmFWq2dQ4GrN4yOP2IC2m2ZAlyvT7K3iiVL5voMIJdLQ4Gm9MCZkXkUkXfvNc5wE=
+  on:
+    tags: true

@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 with open('README.md') as f:
     readme = f.read()
@@ -6,7 +6,7 @@ with open('README.md') as f:
 setup(
     name='uwgs',
     version='0.1.0',
-    description='Flexible http client for UW Groups API v3.',
+    description='Flexible http client for reading UW Groups API v3.',
     long_description=readme,
     author='UW Medicine Research IT',
     url='https://github.com/uwrit/uwgs',
