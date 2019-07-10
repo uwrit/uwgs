@@ -8,6 +8,3 @@ verify_ssl = true
 [packages]
 requests = "==2.22.0"
 requests-futures = "*"
-
-[requires]
-python_version = "3.6"
