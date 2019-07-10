@@ -6,6 +6,8 @@ python:
 install:
   - pip install pipenv
   - pipenv install --dev
+script:
+  - pipenv run pip list
 deploy:
   provider: pypi
   user: uwrit
