@@ -13,6 +13,7 @@ deploy:
   user: uwrit
   password:
     secure: YlhYUzB8XafhlemA6968DIQjHJ3U+rlOA0qDc8bRbxbUJRvmAAKkNJ/mCSJJX0db0rxW4/oWn5sYbewsJwfkRf00QIvUz/ivHC5IY/DetDMVmAM+f6mvQXqyamBrIAPnd5yBpSa5lERdcjLRyHriFI9FVPIrvhI4nXbfbUiTEF1/psX0teIZcrMVEjj3nEfbt1T/F+l87Ao0YPRgPMZuoWAK61luqICfYv8snN6Nf4mvjcKWhqLuWq0eUMecAhnXzTPazz+uWh7by5ICnp+sY1Qfqwouz0o5AAj/zMfudBWCUUWEJ4vxwsE8psZBZYprxLirA64OkQb4mFPpHjHgy6Knw9u4Dt1ROL4mbm+jZIGWkqugIUh4+Ir7qJSNbkrEEpSQTm1s0n7goIm4xHZeafcXBmw66WEWwxnbrs2g4I0LTB7zv9sl876ZIh2cCdQr8vtstRhEf6HkjwSZXB66ekXFqGgv4BkbP6b2raBFW4Eny1o3zMu/UTzHcF66pDiYentBCqHuF0gw4hZi+1uvF25WiIyz1wErOQBfdLHqTGGN0caf5314vqpgMhPVv1LhY5mz/w0fxQ8S0/TYJkNezP1aEYKv5a5RQ3cuk9V8dX7HIVSz2dZEcmhbQ0WKZ5s5YRdXjS/2mzjKNr/Wb411OSIN76N+QBVGNjtE/ytYr7o=
+  skip_cleanup: true
   on:
     tags: true
     repo: uwrit/uwgs
