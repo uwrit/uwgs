@@ -1,4 +1,4 @@
-# uwgs
+# uwgs [![Build Status](https://travis-ci.com/uwrit/uwgs.svg?branch=master)](https://travis-ci.com/uwrit/uwgs)
 Python3 Client Library for UW Groups API v3
 
 ### Functionality
