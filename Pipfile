@@ -6,5 +6,5 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-requests = "==2.22.0"
-requests-futures = "*"
+requests = "==2.25.1"
+requests-futures = "==0.9.9"
